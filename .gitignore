@@ -1,0 +1,41 @@
+# dependencies
+node_modules/
+api/node_modules/
+
+# build output
+backend/dist/
+frontend/dist/
+
+# environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# logs
+*.log
+logs/
+npm-debug.log*
+
+# vercel
+.vercel/
+
+# uploads (user-generated)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# testing
+coverage/
+
+# misc
+*.tgz
+.cache/
