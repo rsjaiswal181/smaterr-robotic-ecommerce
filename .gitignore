@@ -3,7 +3,6 @@ node_modules/
 api/node_modules/
 
 # build output
-backend/dist/
 frontend/dist/
 
 # environment files
