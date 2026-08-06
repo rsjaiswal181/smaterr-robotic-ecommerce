@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "outputDirectory": "frontend/dist",
-  "installCommand": "npm install --prefix frontend && npm install --prefix api",
+  "installCommand": "npm install --prefix frontend",
   "builds": [
     {
       "src": "api/index.js",
