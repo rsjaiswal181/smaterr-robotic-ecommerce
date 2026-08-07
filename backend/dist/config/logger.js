@@ -15,7 +15,11 @@ exports.logger = winston_1.default.createLogger({
         new winston_1.default.transports.Console({
             format: winston_1.default.format.combine(winston_1.default.format.colorize(), winston_1.default.format.simple()),
         }),
-        new winston_1.default.transports.File({ filename: 'logs/error.log', level: 'error' }),
-        new winston_1.default.transports.File({ filename: 'logs/combined.log' }),
+        ...(process.env.VERCEL
+            ? []
+            : [
+                new winston_1.default.transports.File({ filename: 'logs/error.log', level: 'error' }),
+                new winston_1.default.transports.File({ filename: 'logs/combined.log' }),
+            ]),
     ],
 });

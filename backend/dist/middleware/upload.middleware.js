@@ -7,8 +7,11 @@ exports.upload = void 0;
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const uploadDir = path_1.default.join(__dirname, '..', '..', 'uploads');
-if (!fs_1.default.existsSync(uploadDir))
+const isVercel = !!process.env.VERCEL;
+const uploadDir = isVercel
+    ? path_1.default.join('/tmp', 'uploads')
+    : path_1.default.join(__dirname, '..', '..', 'uploads');
+if (!isVercel && !fs_1.default.existsSync(uploadDir))
     fs_1.default.mkdirSync(uploadDir, { recursive: true });
 const storage = multer_1.default.diskStorage({
     destination: (_req, _file, cb) => cb(null, uploadDir),

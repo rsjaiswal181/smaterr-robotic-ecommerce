@@ -18,8 +18,21 @@ const error_middleware_1 = require("./middleware/error.middleware");
 const rateLimiter_middleware_1 = require("./middleware/rateLimiter.middleware");
 const app = (0, express_1.default)();
 app.use((0, helmet_1.default)({ crossOriginResourcePolicy: false }));
+const allowedOrigins = [
+    env_1.env.clientUrl,
+    'https://smaterr-ecommerce.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000',
+];
 app.use((0, cors_1.default)({
-    origin: env_1.env.clientUrl,
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 }));
 app.use((0, compression_1.default)());
