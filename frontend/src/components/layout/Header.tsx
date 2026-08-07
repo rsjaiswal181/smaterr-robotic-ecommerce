@@ -1,20 +1,40 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiSearch, FiHeart, FiShoppingBag, FiUser, FiMenu, FiX, FiZap } from 'react-icons/fi';
+import { FiSearch, FiHeart, FiShoppingBag, FiUser, FiMenu, FiX, FiZap, FiLogOut } from 'react-icons/fi';
 import { useAuth } from '@/hooks/useAuth';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { categoryService } from '@/services';
 import { useCartQuery } from '@/hooks/useCart';
 
 export const Header = () => {
   const [query, setQuery] = useState('');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
+  const qc = useQueryClient();
   const { data: cart } = useCartQuery();
   const { data: categories = [] } = useQuery({ queryKey: ['categories'], queryFn: () => categoryService.list() });
 
   const cartCount = cart?.items?.reduce((sum, i) => sum + i.quantity, 0) || 0;
+
+  const handleLogout = async () => {
+    await logout();
+    qc.clear();
+    setUserMenuOpen(false);
+    navigate('/');
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,14 +98,33 @@ export const Header = () => {
               </span>
             )}
           </Link>
-          <Link
-            to={isAuthenticated ? '/profile' : '/login'}
-            aria-label="Account"
-            className="flex items-center gap-1 text-ink/70 hover:text-forest"
-          >
-            <FiUser className="h-5 w-5" />
-            <span className="hidden text-sm sm:inline">{isAuthenticated ? user?.name.split(' ')[0] : 'Login'}</span>
-          </Link>
+          <div className="relative" ref={userMenuRef}>
+            <button
+              onClick={() => isAuthenticated ? setUserMenuOpen((v) => !v) : navigate('/login')}
+              className="flex items-center gap-1 text-ink/70 hover:text-forest"
+              aria-label="Account"
+            >
+              <FiUser className="h-5 w-5" />
+              <span className="hidden text-sm sm:inline">{isAuthenticated ? user?.name.split(' ')[0] : 'Login'}</span>
+            </button>
+            {isAuthenticated && userMenuOpen && (
+              <div className="absolute right-0 top-full mt-2 w-44 rounded-md border border-ink/10 bg-paper shadow-lg z-50">
+                <Link
+                  to="/profile"
+                  onClick={() => setUserMenuOpen(false)}
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink/80 hover:bg-ink/5"
+                >
+                  <FiUser className="h-4 w-4" /> Profile
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-ink/80 hover:bg-ink/5"
+                >
+                  <FiLogOut className="h-4 w-4" /> Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -106,6 +145,14 @@ export const Header = () => {
                 {c.name}
               </Link>
             ))}
+            {isAuthenticated && (
+              <button
+                onClick={async () => { await handleLogout(); setMobileOpen(false); }}
+                className="flex items-center gap-2 py-1 text-sm text-ink/70 hover:text-forest"
+              >
+                <FiLogOut className="h-4 w-4" /> Logout
+              </button>
+            )}
           </div>
         </div>
       )}
