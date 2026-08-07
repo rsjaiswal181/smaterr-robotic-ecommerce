@@ -71,6 +71,20 @@ const run = async () => {
   }
   console.log(`Brands ready: ${brandNames.join(', ')}`);
 
+  const categoryColors: Record<string, string> = {
+    Electronics: '3b82f6',
+    Robotics: 'ef4444',
+    Sensors: '10b981',
+    Modules: '8b5cf6',
+    Components: 'f59e0b',
+    Tools: '6b7280',
+  };
+  const placeholderImg = (name: string, category: string) => {
+    const bg = categoryColors[category] || '64748b';
+    const short = name.length > 25 ? name.slice(0, 25) + '…' : name;
+    return `https://placehold.co/400x400/${bg}/ffffff?text=${encodeURIComponent(short)}`;
+  };
+
   // --- Sample products ---
   const sampleProducts = [
     {
@@ -80,7 +94,6 @@ const run = async () => {
       price: 999,
       salePrice: 799,
       stock: 120,
-      image: 'https://himalayansolution.com/img-cache/188-400.webp',
       isFeatured: true,
       isBestSeller: true,
       specifications: [
@@ -95,7 +108,6 @@ const run = async () => {
       price: 6999,
       salePrice: 6499,
       stock: 25,
-      image: 'https://himalayansolution.com/img-cache/2844-400.webp',
       isTrending: true,
       isNewArrival: true,
       specifications: [
@@ -110,7 +122,6 @@ const run = async () => {
       price: 799,
       salePrice: 649,
       stock: 95,
-      image: 'https://himalayansolution.com/img-cache/2881-400.webp',
       isFeatured: true,
       isTrending: true,
       specifications: [
@@ -125,7 +136,6 @@ const run = async () => {
       price: 399,
       salePrice: 329,
       stock: 140,
-      image: 'https://himalayansolution.com/img-cache/290-400.webp',
       isBestSeller: true,
       specifications: [{ key: 'Range', value: '2cm-400cm' }],
     },
@@ -135,7 +145,6 @@ const run = async () => {
       brand: 'Generic',
       price: 199,
       stock: 210,
-      image: 'https://himalayansolution.com/img-cache/328-400.webp',
       isBestSeller: true,
       specifications: [{ key: 'Rotation', value: '180 degree' }],
     },
@@ -145,7 +154,6 @@ const run = async () => {
       brand: 'Generic',
       price: 129,
       stock: 180,
-      image: 'https://himalayansolution.com/img-cache/3484-400.webp',
       isNewArrival: true,
       specifications: [{ key: 'Interface', value: 'I2C' }],
     },
@@ -155,7 +163,6 @@ const run = async () => {
       brand: 'Generic',
       price: 349,
       stock: 85,
-      image: 'https://himalayansolution.com/img-cache/901-400.webp',
       isTrending: true,
       specifications: [{ key: 'Tie Points', value: '830' }],
     },
@@ -166,7 +173,6 @@ const run = async () => {
       price: 299,
       salePrice: 249,
       stock: 130,
-      image: 'https://himalayansolution.com/img-cache/319-400.webp',
       isBestSeller: true,
       specifications: [{ key: 'Type', value: 'Male to Female' }],
     },
@@ -176,7 +182,6 @@ const run = async () => {
       brand: 'Generic',
       price: 199,
       stock: 175,
-      image: 'https://himalayansolution.com/img-cache/1939-400.webp',
       isFeatured: true,
       specifications: [{ key: 'Type', value: 'Male to Male' }],
     },
@@ -187,7 +192,6 @@ const run = async () => {
       price: 1199,
       salePrice: 999,
       stock: 55,
-      image: 'https://himalayansolution.com/img-cache/4054-400.webp',
       specifications: [{ key: 'Type', value: 'Non-Contact IR' }],
     },
     {
@@ -196,7 +200,6 @@ const run = async () => {
       brand: 'Generic',
       price: 229,
       stock: 160,
-      image: 'https://himalayansolution.com/img-cache/4053-400.webp',
       specifications: [{ key: 'Display', value: 'LED' }],
     },
     {
@@ -205,7 +208,6 @@ const run = async () => {
       brand: 'Generic',
       price: 99,
       stock: 500,
-      image: 'https://himalayansolution.com/img-cache/1972-400.webp',
       specifications: [{ key: 'Size', value: '5mm' }],
     },
     {
@@ -214,7 +216,6 @@ const run = async () => {
       brand: 'Generic',
       price: 249,
       stock: 110,
-      image: 'https://himalayansolution.com/img-cache/4187-400.webp',
       isTrending: true,
       specifications: [{ key: 'Type', value: 'SPDT' }],
     },
@@ -224,7 +225,6 @@ const run = async () => {
       brand: 'Generic',
       price: 119,
       stock: 220,
-      image: 'https://himalayansolution.com/img-cache/2841-400.webp',
       specifications: [{ key: 'Frequency', value: '13.56MHz' }],
     },
     {
@@ -234,7 +234,6 @@ const run = async () => {
       price: 249,
       salePrice: 199,
       stock: 150,
-      image: 'https://himalayansolution.com/img-cache/2551-400.webp',
       isBestSeller: true,
       specifications: [{ key: 'Type', value: 'USB A to B' }],
     },
@@ -244,7 +243,6 @@ const run = async () => {
       brand: 'Generic',
       price: 399,
       stock: 95,
-      image: 'https://himalayansolution.com/img-cache/2927-400.webp',
       isNewArrival: true,
       specifications: [{ key: 'Charging', value: 'Type-C 3A' }],
     },
@@ -254,7 +252,6 @@ const run = async () => {
       brand: 'Generic',
       price: 199,
       stock: 260,
-      image: 'https://himalayansolution.com/img-cache/4062-400.webp',
       specifications: [{ key: 'Output', value: '2A' }],
     },
     {
@@ -263,7 +260,6 @@ const run = async () => {
       brand: 'Generic',
       price: 99,
       stock: 350,
-      image: 'https://himalayansolution.com/img-cache/4193-400.webp',
       specifications: [{ key: 'Capacitance', value: '100uF' }],
     },
     {
@@ -272,7 +268,6 @@ const run = async () => {
       brand: 'Generic',
       price: 109,
       stock: 340,
-      image: 'https://himalayansolution.com/img-cache/4192-400.webp',
       specifications: [{ key: 'Voltage', value: '220V' }],
     },
     {
@@ -281,7 +276,6 @@ const run = async () => {
       brand: 'Generic',
       price: 179,
       stock: 125,
-      image: 'https://himalayansolution.com/img-cache/4189-400.webp',
       specifications: [{ key: 'Capacitance', value: '0.33uF' }],
     },
     {
@@ -290,7 +284,6 @@ const run = async () => {
       brand: 'Generic',
       price: 89,
       stock: 300,
-      image: 'https://himalayansolution.com/img-cache/2496-400.webp',
       specifications: [{ key: 'Capacity', value: '3000mAh' }],
     },
     {
@@ -300,7 +293,6 @@ const run = async () => {
       price: 499,
       salePrice: 399,
       stock: 90,
-      image: 'https://himalayansolution.com/img-cache/2897-400.webp',
       specifications: [{ key: 'Resistance', value: '100K Ohm' }],
     },
     {
@@ -309,7 +301,6 @@ const run = async () => {
       brand: 'Generic',
       price: 599,
       stock: 70,
-      image: 'https://himalayansolution.com/img-cache/2846-400.webp',
       isFeatured: true,
       specifications: [{ key: 'Motor', value: '2212 920KV' }],
     },
@@ -319,7 +310,6 @@ const run = async () => {
       brand: 'Generic',
       price: 349,
       stock: 100,
-      image: 'https://himalayansolution.com/img-cache/2843-400.webp',
       specifications: [{ key: 'Scale', value: '1/10' }],
     },
     {
@@ -329,7 +319,6 @@ const run = async () => {
       price: 2499,
       salePrice: 2199,
       stock: 35,
-      image: 'https://himalayansolution.com/img-cache/4190-400.webp',
       isNewArrival: true,
       specifications: [{ key: 'Type', value: 'X2 Safety' }],
     },
@@ -339,7 +328,6 @@ const run = async () => {
       brand: 'Generic',
       price: 1899,
       stock: 45,
-      image: 'https://himalayansolution.com/img-cache/4194-400.webp',
       isTrending: true,
       specifications: [{ key: 'Type', value: 'Wireless Antenna' }],
     },
@@ -350,7 +338,6 @@ const run = async () => {
       price: 3499,
       salePrice: 2999,
       stock: 40,
-      image: 'https://himalayansolution.com/img-cache/4191-400.webp',
       isFeatured: true,
       isNewArrival: true,
       specifications: [{ key: 'Current', value: '3A' }],
@@ -367,7 +354,7 @@ const run = async () => {
       sku: `SKU-${slug.toUpperCase().slice(0, 10)}-${Math.floor(Math.random() * 9000 + 1000)}`,
       category: categories[p.category],
       brand: brands[p.brand],
-      images: [p.image],
+      images: [placeholderImg(p.name, p.category)],
       description: `${p.name} for electronics, robotics, and DIY prototyping projects. Tested quality, practical pricing, and fast dispatch.`,
       specifications: p.specifications || [],
       price: p.price,
