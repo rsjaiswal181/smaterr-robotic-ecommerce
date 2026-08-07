@@ -82366,14 +82366,14 @@ var placeOrder = asyncHandler(async (req, res) => {
       product: product._id,
       name: product.name,
       image: product.images?.[0] || "",
-      price: item.price,
-      quantity: item.quantity
+      price: Number(item.price) || product.price,
+      quantity: Number(item.quantity) || 1
     });
   }
   const itemsPrice = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
   let discount = 0;
   let couponCode;
-  if (cart.coupon) {
+  if (cart.coupon && cart.coupon.discountValue != null) {
     discount = cart.coupon.discountType === "percentage" ? itemsPrice * cart.coupon.discountValue / 100 : cart.coupon.discountValue;
     couponCode = cart.coupon.code;
   }

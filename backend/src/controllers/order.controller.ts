@@ -31,8 +31,8 @@ export const placeOrder = asyncHandler(async (req: Request, res: Response) => {
       product: product._id,
       name: product.name,
       image: product.images?.[0] || '',
-      price: item.price,
-      quantity: item.quantity,
+      price: Number(item.price) || product.price,
+      quantity: Number(item.quantity) || 1,
     });
   }
 
@@ -40,7 +40,7 @@ export const placeOrder = asyncHandler(async (req: Request, res: Response) => {
   let discount = 0;
   let couponCode: string | undefined;
 
-  if (cart.coupon) {
+  if (cart.coupon && cart.coupon.discountValue != null) {
     discount =
       cart.coupon.discountType === 'percentage'
         ? (itemsPrice * cart.coupon.discountValue) / 100
