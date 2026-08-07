@@ -19,6 +19,7 @@
    "cookie-parser": "^1.4.6",
    "cors": "^2.8.5",
    "dotenv": "^16.4.5",
+   "esbuild": "^0.28.1",
    "express": "^4.19.2",
    "express-mongo-sanitize": "^2.2.0",
    "express-rate-limit": "^7.4.0",
@@ -33,7 +34,6 @@
    "winston": "^3.13.0"
  },
  "devDependencies": {
-   "concurrently": "^8.2.2",
-   "esbuild": "^0.28.1"
+   "concurrently": "^8.2.2"
  }
 }
