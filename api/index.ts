@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import mongoose from 'mongoose';
-import app from '../backend/src/app';
+import app from '../backend/dist/app';
 
 let isConnected = false;
 
