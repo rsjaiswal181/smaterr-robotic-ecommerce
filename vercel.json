@@ -1,24 +1,12 @@
 {
   "version": 2,
   "installCommand": "cd frontend && npm install && cd ../backend && npm install",
-  "buildCommand": "cd backend && npm run build && cp -r dist ../api/dist",
+  "buildCommand": "cd backend && npm run build && cd .. && rm -rf api/dist && cp -r backend/dist api/dist",
   "outputDirectory": "frontend/dist",
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/index.js"
-    },
-    {
-      "source": "/health",
-      "destination": "/api/index.js"
-    },
-    {
-      "source": "/uploads/(.*)",
-      "destination": "/api/index.js"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/health", "destination": "/api" },
+    { "source": "/uploads/(.*)", "destination": "/api" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
