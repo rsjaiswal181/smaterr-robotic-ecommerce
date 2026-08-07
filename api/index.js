@@ -1,3 +1,4 @@
-module.exports = async function handler(req, res) {
-  return res.status(200).json({ success: true, message: 'API is running', url: req.url });
-};
+const app = require("../backend/dist/app").default;
+
+module.exports = app;
+module.exports.default = app;
