@@ -14,10 +14,15 @@ import { apiLimiter } from './middleware/rateLimiter.middleware';
 
 const app: Application = express();
 
+if (process.env.VERCEL) {
+  app.set('trust proxy', 1);
+}
+
 app.use(helmet({ crossOriginResourcePolicy: false }));
 const allowedOrigins = [
   env.clientUrl,
   'https://smaterr-ecommerce.vercel.app',
+  'https://ecommerce-self-ten-67.vercel.app',
   'http://localhost:5173',
   'http://localhost:3000',
 ];
