@@ -8,7 +8,10 @@ export const connectDB = async (): Promise<void> => {
     logger.info(`MongoDB connected: ${mongoose.connection.host}/${mongoose.connection.name}`);
   } catch (error) {
     logger.error(`MongoDB connection failed: ${(error as Error).message}`);
-    process.exit(1);
+    if (!process.env.VERCEL) {
+      process.exit(1);
+    }
+    throw error;
   }
 };
 

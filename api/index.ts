@@ -10,7 +10,6 @@ const connectToDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI!);
     isConnected = true;
-    console.log('MongoDB connected');
   } catch (error) {
     console.error('MongoDB connection error:', error);
     throw error;
@@ -18,6 +17,14 @@ const connectToDatabase = async () => {
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  await connectToDatabase();
-  return app(req, res);
+  try {
+    await connectToDatabase();
+    return app(req, res);
+  } catch (error) {
+    console.error('Handler error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    });
+  }
 }
