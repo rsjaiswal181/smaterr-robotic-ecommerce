@@ -4,7 +4,6 @@ api/node_modules/
 
 # build output
 frontend/dist/
-api/index.js
 
 # environment files
 .env
