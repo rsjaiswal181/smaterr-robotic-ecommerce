@@ -71,6 +71,12 @@ export const LoginPage = () => {
           Create an account
         </Link>
       </p>
+
+      <div className="mt-4 rounded-lg border border-dashed border-forest/30 bg-forest/5 p-3 text-center text-xs text-ink/50">
+        <span className="font-medium text-forest">Demo login</span>
+        <br />
+        demo@smaterr.com / demo12
+      </div>
     </div>
   );
 };
