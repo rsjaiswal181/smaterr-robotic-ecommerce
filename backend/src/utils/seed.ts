@@ -84,6 +84,35 @@ const run = async () => {
     const short = name.length > 25 ? name.slice(0, 25) + '…' : name;
     return `https://placehold.co/400x400/${bg}/ffffff?text=${encodeURIComponent(short)}`;
   };
+  const pexelsBase = 'https://images.pexels.com/photos';
+  const pexelsImages: Record<string, string> = {
+    arduino: `${pexelsBase}/1474993/pexels-photo-1474993.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    raspberry: `${pexelsBase}/28767589/pexels-photo-28767589.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    sensor: `${pexelsBase}/35652464/pexels-photo-35652464.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    servo: `${pexelsBase}/35652464/pexels-photo-35652464.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    motor: `${pexelsBase}/35652464/pexels-photo-35652464.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    breadboard: `${pexelsBase}/1474993/pexels-photo-1474993.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    jumper: `${pexelsBase}/1474993/pexels-photo-1474993.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    oled: `${pexelsBase}/28767589/pexels-photo-28767589.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    display: `${pexelsBase}/28767589/pexels-photo-28767589.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    led: `${pexelsBase}/35673112/pexels-photo-35673112.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    switch: `${pexelsBase}/35673112/pexels-photo-35673112.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    capacitor: `${pexelsBase}/35673112/pexels-photo-35673112.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    battery: `${pexelsBase}/35673112/pexels-photo-35673112.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    usb: `${pexelsBase}/1474993/pexels-photo-1474993.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    cable: `${pexelsBase}/1474993/pexels-photo-1474993.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    module: `${pexelsBase}/35673112/pexels-photo-35673112.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    drone: `${pexelsBase}/1474993/pexels-photo-1474993.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    tire: `${pexelsBase}/35652464/pexels-photo-35652464.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+    antenna: `${pexelsBase}/7663138/pexels-photo-7663138.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1`,
+  };
+  const getImage = (name: string, category: string) => {
+    const lower = name.toLowerCase();
+    for (const [key, url] of Object.entries(pexelsImages)) {
+      if (lower.includes(key)) return url;
+    }
+    return placeholderImg(name, category);
+  };
 
   // --- Sample products ---
   const sampleProducts = [
@@ -354,7 +383,7 @@ const run = async () => {
       sku: `SKU-${slug.toUpperCase().slice(0, 10)}-${Math.floor(Math.random() * 9000 + 1000)}`,
       category: categories[p.category],
       brand: brands[p.brand],
-      images: [placeholderImg(p.name, p.category)],
+      images: [getImage(p.name, p.category)],
       description: `${p.name} for electronics, robotics, and DIY prototyping projects. Tested quality, practical pricing, and fast dispatch.`,
       specifications: p.specifications || [],
       price: p.price,
